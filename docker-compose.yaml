@@ -1,0 +1,45 @@
+services:
+  mongo:
+    image: mongo
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  auth-service:
+    build: ./Auth-Service
+    ports:
+      - "5001:5001"
+    environment:
+      - MONGODB_URI=mongodb://localhost:27017/taskmanager
+      - JWT_SECRET=your_jwt_secret
+      - EMAIL_HOST=smtp.mailtrap.io
+      - EMAIL_PORT=2525
+      - EMAIL_USER=your_user
+      - EMAIL_PASS=your_pass
+      - FRONTEND_URL=http://localhost:3000
+    depends_on:
+      - mongo
+
+  backend-service:
+    build: ./Backend-Service
+    ports:
+      - "5000:5000"
+    environment:
+      - MONGODB_URI=mongodb://localhost:27017/taskmanager
+      - AUTH_SERVICE_URL=http://localhost:5001
+    depends_on:
+      - mongo
+      - auth-service
+
+  frontend:
+    build: ./Frontend/my-app
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend-service
+      - auth-service
+
+volumes:
+  mongo-data:
