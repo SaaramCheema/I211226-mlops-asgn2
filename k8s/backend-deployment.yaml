@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend-service
+  ports:
+    - port: 5000
+      targetPort: 5000
+      nodePort: 30002
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend-service
+  template:
+    metadata:
+      labels:
+        app: backend-service
+    spec:
+      containers:
+        - name: backend-service
+          image: backend-service:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 5000
+          env:
+            - name: MONGODB_URI
+              value: mongodb://localhost:27017/taskmanager
+            - name: AUTH_SERVICE_URL
+              value: http://localhost:5001

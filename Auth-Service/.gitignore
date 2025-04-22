@@ -1,0 +1,51 @@
+# Node modules
+node_modules/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Runtime data
+pids/
+*.pid
+*.seed
+*.pid.lock
+
+# dotenv environment variables
+.env
+.env.local
+.env.*.local
+
+# Binaries
+dist/
+build/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# Coverage directory used by tools like istanbul
+coverage/
+
+# Optional npm cache directory
+.npm/
+
+# Debug output
+debug.log
+
+# TypeScript
+*.tsbuildinfo
+
+# PM2 logs
+.pids/
+*.log
+
+# Misc
+*.tgz
